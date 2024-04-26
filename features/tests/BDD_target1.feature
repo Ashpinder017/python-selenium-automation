@@ -1,11 +1,6 @@
 # Created by apkau at 4/4/2024
 Feature: Search cart in Target
   # Enter feature description here
-  Scenario: check cart is empty
-  Given Open Target main page
-  When Check for shopping cart
-  Then  Verify the cart is empty
-
   Scenario:Verify the cart have items
     Given Open Target main page
     When search for 'pens'
@@ -30,3 +25,8 @@ Feature: Search cart in Target
     |pen    | "pen"     |
     |tea    | "tea"     |
     |water  |"water"    |
+
+  Scenario: check cart is empty
+  Given Open Target main page
+  When Check for shopping cart
+  Then  Verify the cart is empty
