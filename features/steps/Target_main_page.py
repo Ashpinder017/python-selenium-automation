@@ -1,5 +1,7 @@
 from selenium.webdriver.common.by import By
 from behave import given, when, then
+#from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 
 SEARCH_INPUT = (By.ID, 'search')
@@ -8,8 +10,6 @@ HEADER=(By.CSS_SELECTOR,"[class*='UtilityHeaderWrapper']")
 HEADER_LINK=(By.CSS_SELECTOR,"[data-test*='@web/GlobalHeader/UtilityHeader']")
 SELECT_PRODUCT=(By.CSS_SELECTOR,"[id*='addToCartButtonOrTextI']")
 ORDER_PRODUCT=(By.CSS_SELECTOR,"[data-test='orderPickupButton']")
-PRODUCT_INCART=(By.XPATH,"//a[@href='/cart']")
-PRODUCT_RATE_ITEM=(By.CSS_SELECTOR,"[class*='styles__CartSummarySpan']")
 
 
 @given('Open Target main page')
@@ -25,14 +25,14 @@ def check_shopping_cart(context):
 @when("Search an {item}")
 def search_item(context,item):
     context.driver.find_element(*SEARCH_INPUT).send_keys(item)
-    sleep(5)
 
 
 @when('Click on search icon')
 def click_on_search_icon(context):
+  #  context.driver.wait.until(EC.element_to_be_clickable(SEARCH_BIN),message='Search icon was not clicked').click()
     context.driver.find_element(*SEARCH_BIN).click()
     sleep(10)
-
+# I am not able to remove this sleep
 
 @when("search for 'pens'")
 def search_product(context):
@@ -42,14 +42,8 @@ def search_product(context):
 @then('select an product')
 def select_product(context):
     context.driver.find_element(*SELECT_PRODUCT).click()
-    context.driver.find_element(*ORDER_PRODUCT).click()
-
-
-@then('check there is product and price in the cart')
-def check_product(context):
-    context.driver.find_element(*PRODUCT_INCART).click()
-    link=context.driver.find_element(*PRODUCT_RATE_ITEM)
-    print(f'Total amount and items in cart {link.text}')
+    context.driver.wait.until(EC.element_to_be_clickable(ORDER_PRODUCT), message='Search icon was not clicked').click()
+    #context.driver.find_element(*ORDER_PRODUCT).click()
 
 
 @when('User can Sign in')
