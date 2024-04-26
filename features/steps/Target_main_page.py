@@ -5,7 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 
 SEARCH_INPUT = (By.ID, 'search')
-SEARCH_BIN=(By.XPATH,"//button[@data-test='@web/Search/SearchButton']")
+SEARCH_BUTTON=(By.XPATH,"//button[@data-test='@web/Search/SearchButton']")
 HEADER=(By.CSS_SELECTOR,"[class*='UtilityHeaderWrapper']")
 HEADER_LINK=(By.CSS_SELECTOR,"[data-test*='@web/GlobalHeader/UtilityHeader']")
 SELECT_PRODUCT=(By.CSS_SELECTOR,"[id*='addToCartButtonOrTextI']")
@@ -14,8 +14,8 @@ ORDER_PRODUCT=(By.CSS_SELECTOR,"[data-test='orderPickupButton']")
 
 @given('Open Target main page')
 def open_target_main_page(context):
-    context.driver.get('https://www.target.com/')
-
+   # context.driver.get('https://www.target.com/')
+    context.app.main_page.open_main()
 
 @when('Check for shopping cart')
 def check_shopping_cart(context):
@@ -24,15 +24,16 @@ def check_shopping_cart(context):
 
 @when("Search an {item}")
 def search_item(context,item):
-    context.driver.find_element(*SEARCH_INPUT).send_keys(item)
+   # context.driver.find_element(*SEARCH_INPUT).send_keys(item)
+    #sleep(5)
+    context.app.header_search.product(item)
 
 
 @when('Click on search icon')
 def click_on_search_icon(context):
-  #  context.driver.wait.until(EC.element_to_be_clickable(SEARCH_BIN),message='Search icon was not clicked').click()
-    context.driver.find_element(*SEARCH_BIN).click()
-    sleep(10)
-# I am not able to remove this sleep
+   context.driver.find_element(*SEARCH_BUTTON).click()
+   sleep(10)
+
 
 @when("search for 'pens'")
 def search_product(context):
